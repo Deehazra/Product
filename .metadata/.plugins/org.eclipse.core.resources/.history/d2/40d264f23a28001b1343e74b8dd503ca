@@ -1,0 +1,157 @@
+package test.product;
+
+import java.util.*;
+import java.sql.*;  
+
+public class productRepository {
+	
+	List<product> products;
+	
+	Connection con = null;
+	
+	public productRepository()
+	{
+		/*
+		 * products = new ArrayList<>(); product p1= new product();
+		 * p1.setCategory("Mobile"); p1.setCompany("Apple"); p1.setProduct("AP1");
+		 * p1.setColor("Black"); p1.setDescription("Some Description");
+		 * p1.setPrice(70000); p1.setDiscount(13); p1.setNo_of_Items(11);
+		 * 
+		 * product p2= new product(); p2.setCategory("Mobile");
+		 * p2.setCompany("Samsung"); p2.setProduct("AP2"); p2.setColor("White");
+		 * p2.setDescription("Some Description"); p2.setPrice(50000);
+		 * p2.setDiscount(10); p2.setNo_of_Items(7);
+		 * 
+		 * products.add(p1); products.add(p2);
+		 */
+		
+		String url = "jdbc:mysql://localhost:3306/product_data";
+		String username = "root";
+		String password = "password";
+	
+		try
+		{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 con = DriverManager.getConnection(url,username,password);
+			 System.out.println("connection sucessfull");
+		}
+		catch(Exception e) {
+			System.out.print(e);
+		}
+		
+	}
+	
+	public List<product> getitems()
+	{
+		List<product> products = new ArrayList<>();
+		String sql ="select * from product_list";
+		try {
+			Statement st = con.createStatement();
+			ResultSet record = st.executeQuery(sql);
+			while(record.next())
+			{
+				product p =new product();
+				  	p.setCategory(record.getString(1));
+	                p.setCompany(record.getString(2));
+	                p.setProduct(record.getString(3));
+	                p.setColor(record.getString(4));
+	                p.setDescription(record.getString(5));
+	                p.setPrice((record.getInt(6)));
+	                p.setDiscount((record.getInt(7)));
+	                p.setNo_of_Items((record.getInt(8)));
+	                
+	            products.add(p);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		return products;
+	}
+	
+	
+	public product getOne()
+	{
+		String sql ="select * from product_list where Product='AP1'";
+		
+		product p =new product();
+		try {
+			Statement st = con.createStatement();
+			ResultSet record = st.executeQuery(sql);
+			if(record.next())
+			{	
+				  	p.setCategory(record.getString(1));
+	                p.setCompany(record.getString(2));
+	                p.setProduct(record.getString(3));
+	                p.setColor(record.getString(4));
+	                p.setDescription(record.getString(5));
+	                p.setPrice((record.getInt(6)));
+	                p.setDiscount((record.getInt(7)));
+	                p.setNo_of_Items((record.getInt(8)));
+	                
+	            products.add(p);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return p;
+		
+	}
+	
+	public product getOneItem(String prod)
+	{
+		String pid=prod;
+		String sql ="select * from product_list where Product="+'$pid';
+		
+		product p =new product();
+		try {
+			Statement st = con.createStatement();
+			ResultSet record = st.executeQuery(sql);
+			if(record.next())
+			{	
+				  	p.setCategory(record.getString(1));
+	                p.setCompany(record.getString(2));
+	                p.setProduct(record.getString(3));
+	                p.setColor(record.getString(4));
+	                p.setDescription(record.getString(5));
+	                p.setPrice((record.getInt(6)));
+	                p.setDiscount((record.getInt(7)));
+	                p.setNo_of_Items((record.getInt(8)));
+	                
+	            products.add(p);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return p;
+		
+	}
+
+	public void create(product p1) {
+		// TODO Auto-generated method stub
+		String sql="insert into product_list values (?,?,?,?,?,?,?,?)";
+		try
+		{
+			PreparedStatement st=con.prepareStatement(sql);
+			st.setString(1,p1.getCategory());
+			st.setString(2,p1.getCompany());
+			st.setString(3, p1.getProduct());
+			st.setString(4, p1.getColor());
+			st.setString(5, p1.getDescription());
+			st.setInt(6, p1.getPrice());
+			st.setInt(7, p1.getDiscount());
+			st.setInt(8, p1.getNo_of_Items());
+			st.executeUpdate();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+}

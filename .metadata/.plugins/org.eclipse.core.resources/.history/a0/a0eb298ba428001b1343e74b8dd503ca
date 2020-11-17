@@ -1,0 +1,21 @@
+package test.product;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+@Path("delete")
+public class orderResource {
+
+
+	@POST
+	@Path("insertproduct")
+	public product createproduct(product p1)
+	{
+		System.out.println("Create called");
+		System.out.println(p1);
+		repo.create(p1);
+		
+		return p1;
+	}
+	
+}

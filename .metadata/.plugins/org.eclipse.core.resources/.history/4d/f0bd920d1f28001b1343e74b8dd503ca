@@ -1,0 +1,60 @@
+package test.product;
+
+import java.util.*;
+import java.sql.*;  
+
+public class productRepository {
+	
+	List<product> products;
+	
+	public productRepository()
+	{
+		products = new ArrayList<>();
+		product p1= new product();
+		p1.setCategory("Mobile");
+		p1.setCompany("Apple");
+		p1.setProduct("AP1");
+		p1.setColor("Black");
+		p1.setDescription("Some Description");
+		p1.setPrice(70000);
+		p1.setDiscount(13);
+		p1.setNo_of_Items(11);
+		
+		product p2= new product();
+		p2.setCategory("Mobile");
+		p2.setCompany("Samsung");
+		p2.setProduct("AP2");
+		p2.setColor("White");
+		p2.setDescription("Some Description");
+		p2.setPrice(50000);
+		p2.setDiscount(10);
+		p2.setNo_of_Items(7);
+		
+		products.add(p1);
+		products.add(p2);
+		
+		
+	}
+	
+	public List<product> getitems()
+	{
+		return products;
+	}
+	
+	public product getone(String pid)
+	{
+		for(product p : products)
+		{
+			if(p.getProduct().equals(pid))
+				return p;
+		}
+		return null;
+		
+	}
+
+	public void create(product p1) {
+		// TODO Auto-generated method stub
+		products.add(p1);
+	}
+
+}

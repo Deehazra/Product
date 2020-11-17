@@ -1,0 +1,66 @@
+package test.product;
+
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("order")
+public class orderResource {
+
+	orderRepository orepo = new orderRepository();
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public  List<order>  getItems()
+	{
+		System.out.println("All ITEM CALLED"); 
+		System.out.println(orepo.getallorder());
+		return orepo.getallorder();
+	}
+
+
+	@GET
+	@Path("orderitem/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public order getItems(@PathParam("id") int prod)
+	{
+		System.out.println("Single order called");
+		System.out.println(prod);
+		System.out.println(orepo.getOneItem(prod));
+		return orepo.getOneItem(prod);
+	}
+	
+	//create order
+	@POST
+	@Path("dummy")
+	public order createproduct(order p1)
+	{
+		System.out.println("Create called");
+		System.out.println(p1);
+		orepo.create(p1);
+		
+		return p1;
+	}
+	
+	@DELETE
+	@Path("deletedummy/{id}")
+	public order deletedummy(@PathParam("id") int id)
+	{
+		System.out.println("Delete dummy called with"+id);
+		order o = orepo.getOneItem(id);
+		
+		if(o.getId()!=0)
+			orepo.delete(id);
+		
+		return o;
+		
+	}
+	
+}

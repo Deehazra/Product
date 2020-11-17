@@ -1,0 +1,31 @@
+package test.product;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("allitem")
+public class productresource {
+	
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public product  getItems()
+	{
+		System.out.println("All ITEM CALLED"); 
+		product p1= new product();
+		p1.setCategory("Mobile");
+		p1.setCompany("Apple");
+		p1.setProduct("AP1");
+		p1.setColor("Black");
+		p1.setDescription("Some Description");
+		p1.setPrice(70000);
+		p1.setDiscount(13);
+		p1.setNo_of_Items(11);
+		
+		System.out.print(p1);
+		return p1;
+	}
+	
+
+}

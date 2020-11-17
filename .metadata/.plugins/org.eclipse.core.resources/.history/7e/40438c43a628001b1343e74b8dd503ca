@@ -1,0 +1,99 @@
+package test.product;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class orderRepository {
+	
+	List <order> Order;
+	Connection con = null; 
+	
+	public orderRepository()
+	{
+		
+		String url = "jdbc:mysql://localhost:3306/product_data";
+		String username = "root";
+		String password = "password";
+	
+		try
+		{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 con = DriverManager.getConnection(url,username,password);
+			 System.out.println("connection sucessfull");
+		}
+		catch(Exception e) {
+			System.out.print(e);
+		}
+		
+	}
+	
+	public List<order> getallorder()
+	{
+		List<order> orders = new ArrayList<>();
+		String sql ="select * from order_list";
+		try {
+			Statement st = con.createStatement();
+			ResultSet record = st.executeQuery(sql);
+			while(record.next())
+			{
+				order p =new order();
+					p.setId(record.getInt(1));
+				  	p.setCategory(record.getString(2));
+	                p.setCompany(record.getString(3));
+	                p.setProduct(record.getString(4));
+	                p.setColor(record.getString(5));
+	                p.setDescription(record.getString(6));
+	                p.setPrice((record.getInt(7)));
+	                p.setDiscount((record.getInt(8)));
+	                p.setNo_of_Items((record.getInt(9)));
+	                
+	            orders.add(p);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		return orders;
+	}
+	
+	
+	
+	public void create(order p1) {
+		//String sql="insert into product_data.order_list values (?,?,?,?,?,?,?,?)";
+		String sql ="INSERT INTO `product_data`.`order_list`\r\n"
+				+ "(`Category`,\r\n"
+				+ "`Comapny`,\r\n"
+				+ "`Product`,\r\n"
+				+ "`Color`,\r\n"
+				+ "`Description`,\r\n"
+				+ "`Price`,\r\n"
+				+ "`Discount`,\r\n"
+				+ "`No_of_Item`)\r\n"
+				+ "VALUES\r\n"
+				+ "(?,?,?,?,?,?,?,?);";
+		try
+		{
+			PreparedStatement st=con.prepareStatement(sql);
+			st.setString(1,p1.getCategory());
+			st.setString(2,p1.getCompany());
+			st.setString(3, p1.getProduct());
+			st.setString(4, p1.getColor());
+			st.setString(5, p1.getDescription());
+			st.setInt(6, p1.getPrice());
+			st.setInt(7, p1.getDiscount());
+			st.setInt(8, p1.getNo_of_Items());
+			st.executeUpdate();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+}

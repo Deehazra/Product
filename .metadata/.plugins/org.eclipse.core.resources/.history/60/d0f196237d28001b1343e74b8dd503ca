@@ -1,0 +1,70 @@
+package test.product;
+
+import java.util.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("allitem")
+public class productresource {
+	
+	productRepository repo = new productRepository();
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public  List<product>  getItems()
+	{
+		System.out.println("All ITEM CALLED"); 
+		System.out.println(repo.getitems());
+		return repo.getitems();
+	}
+	
+	
+	@GET
+	@Path("item")
+	@Produces(MediaType.APPLICATION_JSON)
+	public product getItem()
+	{
+		System.out.println("All ITEM CALLED"); 
+		System.out.println(repo.getOne());
+		return repo.getOne();
+	}
+	
+	@GET
+	@Path("items/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public product getItems(@PathParam("id") String prod)
+	{
+		System.out.println("Single item called");
+		System.out.println(prod);
+		System.out.println(repo.getOneItem(prod));
+		return repo.getOneItem(prod);
+	}
+	
+	@GET
+	@Path("category/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public product getbycategory(@PathParam("id") String prod)
+	{
+		System.out.println("Single category called");
+		System.out.println(prod);
+		System.out.println(repo.getByCategory(prod));
+		return repo.getByCategory(prod);
+	}
+
+
+	@POST
+	@Path("product")
+	public product createproduct(product p1)
+	{
+		System.out.println(p1);
+		repo.create(p1);
+		
+		return p1;
+	}
+	
+
+}

@@ -1,0 +1,20 @@
+package test.product;
+
+import java.util.*;
+
+public class productRepository {
+	
+	List<product> products;
+	
+	public productRepository()
+	{
+		products = new ArrayList<>();
+		
+	}
+	
+	public List<product> getitems()
+	{
+		return products;
+	}
+
+}
